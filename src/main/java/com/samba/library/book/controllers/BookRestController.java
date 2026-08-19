@@ -7,6 +7,7 @@ import com.samba.library.book.service.BookService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -94,15 +95,15 @@ public class BookRestController {
 
 
 
+    @DeleteMapping("/{id}")
+    //@ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> deleteBook (@PathVariable Long id){
+        bookService.deleteBook(id);
+
+        return ResponseEntity.ok("Le livre a été supprimé avec success !");
+    }
 
 
-
-
-
-//    @GetMapping("/book/{id}")
-//    public BookDTO.PostOutput put(@Valid @RequestBody BookDTO.PostInput) throws BookCreationException{
-//
-//    }
 }
 
 

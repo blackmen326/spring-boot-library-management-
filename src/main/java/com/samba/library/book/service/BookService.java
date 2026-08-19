@@ -5,12 +5,10 @@ import com.samba.library.book.model.exception.BookCreationException;
 import com.samba.library.book.model.exception.BookNotFoundException;
 import com.samba.library.book.persistence.BookRepository;
 import io.micrometer.common.util.StringUtils;
-import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.time.Year;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -114,6 +112,12 @@ public class BookService {
         return newBook;
 
     }
+
+    public void deleteBook(Long id) {
+        BookEntity book = getBookById(id);
+        bookRepository.delete(book);
+    }
+
 
     public static boolean isValidIsbn13(String rawIsbn){
         if (rawIsbn ==null){
