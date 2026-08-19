@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Slf4j
 @RestController
@@ -69,6 +69,34 @@ public class BookRestController {
                 .description(newBook.getDescription())
                 .build();
     }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public BookDTO.PostOutput updateBook(@PathVariable Long id, @ Valid @RequestBody BookDTO.PutInput input) throws BookCreationException{
+        BookEntity updatedBook = bookService.updateBook(
+                id,
+                input.getIsbn(),
+                input.getBookName(),
+                input.getBookPages(),
+                input.getYear(),
+                input.getDescription()
+        );
+
+        return BookDTO.PostOutput.builder()
+                .id(updatedBook.getId())
+                .isbn(updatedBook.getIsbn())
+                .bookName(updatedBook.getName())
+                .bookPages(updatedBook.getPages())
+                .year(updatedBook.getYear())
+                .description(updatedBook.getDescription())
+                .build();
+    }
+
+
+
+
+
+
 
 
 //    @GetMapping("/book/{id}")

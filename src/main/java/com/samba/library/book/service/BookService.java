@@ -29,6 +29,43 @@ public class BookService {
     public BookEntity getBookById(Long id){
         return bookRepository.findById(id).orElseThrow(()->new BookNotFoundException("Le livre avec l'id " + id +" n'existe pas !"));
     }
+
+    public BookEntity updateBook(Long id, String isbn, String bookName, Integer bookPages, Integer year, String description){
+        BookEntity book = getBookById(id);
+        if (isbn == null || StringUtils.isBlank(isbn))
+        {
+            //return "Le bookName ne peut pas etre null ou vide";
+            throw new BookCreationException("L'isbn ne peut pas etre null ou vide");
+        }
+        if (!BookService.isValidIsbn13(isbn)) {
+            throw new BookCreationException("L'isbn doit etre valide !");
+        }
+
+        if (bookName == null || StringUtils.isBlank(bookName))
+        {
+            //return "Le bookName ne peut pas etre null ou vide";
+            throw new BookCreationException("Le bookName ne peut etre null ou vide");
+        }
+        if (bookPages ==null || bookPages <=0){
+            //return "Le nombre de page ne peut pas etre inférieur ou égal 0 ";
+            throw new BookCreationException("Le nombre de page ne peut pas etre inférieur ou égal 0 ");
+        }
+
+        if (year ==null || year > Year.now().getValue()){
+            //return "Le nombre de page ne peut pas etre inférieur ou égal 0 ";
+            throw new BookCreationException("L'année de parution ne peut pas etre postérieur a l'année actuelle ");
+        }
+
+        book.setIsbn(isbn);
+        book.setName(bookName);
+        book.setPages(bookPages);
+        book.setYear(year);
+        book.setDescription(description);
+
+        bookRepository.save(book);
+
+        return book;
+    }
     
 
     public BookEntity createBook(String isbn, String bookName, Integer bookPages, Integer year, String description) throws BookCreationException {

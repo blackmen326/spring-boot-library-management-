@@ -39,5 +39,21 @@ public class BookDTO {
         String description;
     }
 
+    @Data
+    @AllArgsConstructor
+    @Builder
+    public static class PutInput {
+
+        @NotBlank
+        String isbn;
+        @NotBlank
+        String bookName;
+        @NotNull
+        Integer bookPages;
+        @NotNull
+        Integer year;
+        String description;
+    }
+
 
 }
